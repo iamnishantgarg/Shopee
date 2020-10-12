@@ -1,26 +1,44 @@
 import React from "react";
+import Rating from "./Rating";
 import { Card } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 const Product = ({ product }) => {
   return (
-    <Card classname="p-3 my-3 rounded">
-      <a href={`/product/${product._id}`}>
+    <Card className="my-3 p-3 rounded">
+      <Link to={`/product/${product._id}`}>
         <Card.Img src={product.image} variant="top" />
-      </a>
+      </Link>
       <Card.Body>
-        <a href={`/product/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
           <Card.Title as="div">
             <strong>{product.name}</strong>
           </Card.Title>
-        </a>
+        </Link>
         <Card.Text as="div">
           <div className="my-3">
-            {product.rating} from {product.numReviews}reviews
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} reviews`}
+              color="#f8e825 "
+            />
           </div>
         </Card.Text>
-        <Card.Text as="h3">${product.price}</Card.Text>
+        <Card.Text as="h3">{product.price}&#x20B9;</Card.Text>
       </Card.Body>
     </Card>
   );
+};
+
+Rating.defaultProps = {
+  color: "#f8e825",
+};
+
+Rating.prototype = {
+  value: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default Product;
