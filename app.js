@@ -1,10 +1,15 @@
 const express = require("express");
-
-const products = require("./data/products");
 const dotenv = require("dotenv");
+const products = require("./data/products");
+const connectDb = require("./config/db");
+const colors = require("colors");
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT;
+
+//db connect
+connectDb();
+
 app.use("*", (req, res, next) => {
   // res.se
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,5 +25,5 @@ app.get("/api/products/:id", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on PORT:${PORT}`);
+  console.log(`Server is running on PORT:${PORT}`.yellow.bold.underline);
 });
