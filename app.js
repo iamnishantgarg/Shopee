@@ -1,8 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const products = require("./data/products");
+const productRoute = require("./routes/productRoute");
 const connectDb = require("./config/db");
 const colors = require("colors");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT;
@@ -11,18 +13,18 @@ const PORT = process.env.PORT;
 connectDb();
 
 app.use("*", (req, res, next) => {
-  // res.se
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 });
+app.use("/api/products", productRoute);
 
-app.get("/api/products", (req, res, next) => {
-  return res.json(products);
-});
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((prod) => prod._id === req.params.id);
-  return res.json(product);
-});
+//404 fallback
+
+app.use(notFound);
+
+//error handler
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT:${PORT}`.yellow.bold.underline);
