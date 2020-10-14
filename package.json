@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon app",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run start \"  \" npm run client\"  "
+    "dev": "concurrently \"npm run start \"  \" npm run client\"  ",
+    "data:import":"node seeder.js",
+    "data:destroy":"node seeder.js -d"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/iamnishantgarg/Shopee#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",

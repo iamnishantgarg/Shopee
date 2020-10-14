@@ -37,7 +37,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    catagory: {
+    category: {
       type: String,
       required: true,
     },
@@ -61,7 +61,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    stock: {
+    countInStock: {
       type: Number,
       required: true,
       default: 0,
