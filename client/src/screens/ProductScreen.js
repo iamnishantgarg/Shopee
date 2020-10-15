@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "../axios";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
-// import products from "../products";
+import { connect } from "react-redux";
+import { listProductDetails } from "../actions/productActions";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
-const ProductScreen = ({ match }) => {
-  const [product, setProduct] = useState(null);
-  async function fetchProduct() {
-    try {
-      const res = await axios.get("/api/products/" + match.params.id);
-      setProduct(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+const ProductScreen = ({
+  match,
+  listProductDetails,
+  product,
+  loading,
+  error,
+}) => {
   useEffect(() => {
-    fetchProduct();
+    console.log("yes");
+    listProductDetails(match.params.id);
   }, []);
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>
-      {product && (
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
         <Row>
           <Col md={6}>
             <Image src={product.image} alt={product.name} fluid />
@@ -78,4 +82,10 @@ const ProductScreen = ({ match }) => {
   );
 };
 
-export default ProductScreen;
+const mapStateToProps = (state) => ({
+  product: state.productDetails.product,
+  loading: state.productDetails.loading,
+  error: state.productDetails.error,
+});
+
+export default connect(mapStateToProps, { listProductDetails })(ProductScreen);
