@@ -1,9 +1,16 @@
 import React from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { connect } from "react-redux";
+import { logout } from "../actions/userActions";
+import PropTypes from "prop-types";
+
 // import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ userInfo, logout }) => {
+  const logoutHandler = () => {
+    logout();
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -19,12 +26,22 @@ const Header = () => {
                   <i className="fas fa-shopping-cart"></i>Cart
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-user" />
-                  Login
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user" /> Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -33,4 +50,11 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  userInfo: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  userInfo: state.userLogin.userInfo,
+});
+export default connect(mapStateToProps, { logout })(Header);

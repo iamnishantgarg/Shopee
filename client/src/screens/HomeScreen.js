@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { listProducts } from "../actions/productActions";
@@ -10,7 +10,7 @@ import Message from "../components/Message";
 const HomeScreen = ({ listProducts, products, error, loading }) => {
   useEffect(() => {
     listProducts();
-  }, []);
+  }, [listProducts]);
   return (
     <>
       <h1>Latest Products</h1>

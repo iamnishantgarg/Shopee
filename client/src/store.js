@@ -6,17 +6,33 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducers";
 import { cartReduce } from "./reducers/cartReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+} from "./reducers/userReducers";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cart: cartReduce,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
 });
 
+const userInfoFromStorage = localStorage.getItem("shopee-userInfo")
+  ? JSON.parse(localStorage.getItem("shopee-userInfo"))
+  : null;
 const cartItemsFromStorage = localStorage.getItem("shopee-cartItems")
   ? JSON.parse(localStorage.getItem("shopee-cartItems"))
   : [];
 
-const initialState = { cart: { cartItems: cartItemsFromStorage } };
+const initialState = {
+  cart: { cartItems: cartItemsFromStorage },
+  userLogin: {
+    userInfo: userInfoFromStorage,
+  },
+};
 const middleware = [thunk];
 const store = createStore(
   reducer,
