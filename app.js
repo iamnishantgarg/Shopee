@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const products = require("./data/products");
 const productRoute = require("./routes/productRoute");
+const userRoute = require("./routes/userRoutes");
 const connectDb = require("./config/db");
 const colors = require("colors");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
@@ -16,6 +17,10 @@ app.use("*", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 });
+
+app.use(express.json());
+
+app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 
 //404 fallback
