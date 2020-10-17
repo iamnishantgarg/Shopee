@@ -35,3 +35,11 @@ export const saveShippingAddress = (data) => async (dispatch) => {
   });
   localStorage.setItem("shopee-shippingAddress", JSON.stringify(data));
 };
+
+export const savePaymentMethod = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.SAVE_PAYMENT_METHOD,
+    payload: data,
+  });
+  localStorage.setItem("shopee-paymentMethod", JSON.stringify(data));
+};
