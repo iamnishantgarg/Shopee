@@ -3,7 +3,6 @@ import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "../actions/userActions";
-import PropTypes from "prop-types";
 
 // import { Link } from "react-router-dom";
 
@@ -48,10 +47,6 @@ const Header = ({ userInfo, logout }) => {
       </Navbar>
     </header>
   );
-};
-
-Header.propTypes = {
-  userInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
