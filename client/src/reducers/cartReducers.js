@@ -1,5 +1,8 @@
 import * as actionTypes from "../actions/types";
-export const cartReduce = (state = { cartItems: [] }, action) => {
+export const cartReduce = (
+  state = { cartItems: [], shippingAddress: {} },
+  action
+) => {
   const { type, payload } = action;
   switch (type) {
     case actionTypes.CART_ADD_ITEM:
@@ -28,6 +31,12 @@ export const cartReduce = (state = { cartItems: [] }, action) => {
       else {
         return state;
       }
+
+    case actionTypes.SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: payload,
+      };
 
     default:
       return state;

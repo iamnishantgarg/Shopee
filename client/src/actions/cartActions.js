@@ -27,3 +27,11 @@ export const removeItem = (id) => async (dispatch, getState) => {
     JSON.stringify(getState().cart.cartItems)
   );
 };
+
+export const saveShippingAddress = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.SAVE_SHIPPING_ADDRESS,
+    payload: data,
+  });
+  localStorage.setItem("shopee-shippingAddress", JSON.stringify(data));
+};

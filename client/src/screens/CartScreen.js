@@ -18,6 +18,7 @@ const CartScreen = ({
   cartItems,
   addItem,
   match,
+  userInfo,
   location,
   history,
   removeItem,
@@ -34,7 +35,8 @@ const CartScreen = ({
     removeItem(id);
   };
   const checkoutHandler = () => {
-    history.push("/login");
+    if (!userInfo) history.push("/login?redirect=shipping");
+    else history.push("/shipping");
   };
   return (
     <Row>
@@ -119,6 +121,7 @@ const CartScreen = ({
 
 const mapStateToProps = (state) => ({
   cartItems: state.cart.cartItems,
+  userInfo: state.userLogin.userInfo,
 });
 
 export default connect(mapStateToProps, { addItem, removeItem })(CartScreen);

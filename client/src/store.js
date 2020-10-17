@@ -29,8 +29,16 @@ const cartItemsFromStorage = localStorage.getItem("shopee-cartItems")
   ? JSON.parse(localStorage.getItem("shopee-cartItems"))
   : [];
 
+const shippingAddressFromStorage = localStorage.getItem(
+  "shopee-shippingAddress"
+)
+  ? JSON.parse(localStorage.getItem("shopee-shippingAddress"))
+  : {};
 const initialState = {
-  cart: { cartItems: cartItemsFromStorage },
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+  },
   userLogin: {
     userInfo: userInfoFromStorage,
   },
