@@ -1,10 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { createOrder } from "../actions/orderActions";
 import { connect } from "react-redux";
 import Message from "../components/Message";
 import { Row, Button, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
-const PlaceOrderScreen = ({ cart }) => {
+const PlaceOrderScreen = ({
+  cart,
+  createOrder,
+  order,
+  success,
+  error,
+  history,
+}) => {
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+    }
+    // eslint-disable-next-line
+  }, [history, success]);
+
   const addDecimals = (num) => {
     return Math.round((num * 100) / 100).toFixed(2);
   };
@@ -19,7 +34,17 @@ const PlaceOrderScreen = ({ cart }) => {
     Number(cart.shippingPrice) +
     Number(cart.taxPrice)
   ).toFixed(2);
-  const placeOrderHandler = () => {};
+  const placeOrderHandler = () => {
+    createOrder({
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      taxPrice: cart.taxPrice,
+      totalPrice: cart.totalPrice,
+    });
+  };
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -107,6 +132,9 @@ const PlaceOrderScreen = ({ cart }) => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
+              </ListGroup.Item>
+              <ListGroup.Item>
                 <Button
                   type="button"
                   className="btn-block"
@@ -125,8 +153,11 @@ const PlaceOrderScreen = ({ cart }) => {
 };
 const mapStateToProps = (state) => ({
   userInfo: state.userLogin.userInfo,
-
   cart: state.cart,
+  order: state.orderCreate.order,
+  success: state.orderCreate.success,
+  loading: state.orderCreate.loading,
+  error: state.orderCreate.error,
 });
 
-export default connect(mapStateToProps)(PlaceOrderScreen);
+export default connect(mapStateToProps, { createOrder })(PlaceOrderScreen);
