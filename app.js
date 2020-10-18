@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const products = require("./data/products");
+const orderRoute = require("./routes/orderRoutes");
 const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoutes");
 const connectDb = require("./config/db");
@@ -25,7 +26,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
-
+app.use("/api/orders/", orderRoute);
 //404 fallback
 
 app.use(notFound);
