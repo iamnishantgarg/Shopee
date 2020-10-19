@@ -61,6 +61,9 @@ export const login = (email, password) => async (dispatch) => {
 };
 export const logout = () => async (dispatch) => {
   dispatch({ type: actionTypes.USER_LOGOUT });
+  dispatch({ type: actionTypes.ORDER_LIST_MY_RESET });
+  dispatch({ type: actionTypes.USER_DETAILS_RESET });
+
   localStorage.removeItem("shopee-userInfo");
 };
 

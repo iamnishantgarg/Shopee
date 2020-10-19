@@ -80,3 +80,27 @@ export const payOrder = (orderId, paymentResult) => async (
     });
   }
 };
+
+export const listMyOrders = () => async (dispatch, getState) => {
+  dispatch({ type: actionTypes.ORDER_LIST_MY_REQUEST });
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("/api/orders/myorders", config);
+    dispatch({
+      type: actionTypes.ORDER_LIST_MY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.ORDER_LIST_MY_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
