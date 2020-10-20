@@ -4,8 +4,13 @@ const {
   getProfile,
   registerUser,
   updateUserProfile,
+  getUsers,
+  deleteUserById,
 } = require("../controllers/userController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect, ensureAdmin } = require("../middleware/authMiddleware");
+
+router.get("/", protect, ensureAdmin, getUsers);
+router.delete("/:id", protect, ensureAdmin, deleteUserById);
 
 router.post("/login", authUser);
 router.get("/profile", protect, getProfile);

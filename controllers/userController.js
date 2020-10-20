@@ -100,3 +100,27 @@ exports.registerUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
+
+// @desc    Return all users
+// @route   GET /api/users/
+// @access  Private/Admin
+
+exports.getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).select("-password");
+  res.json(users);
+});
+
+// @desc    Delete user by id
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+
+exports.deleteUserById = asyncHandler(async (req, res) => {
+  const user = User.findById(req.params.id);
+  if (user) {
+    await user.remove();
+    return res.json({ message: "User removed" });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});

@@ -38,7 +38,7 @@ const ProfileScreen = ({
         setEmail(user.email);
       }
     }
-  }, [history, user, userInfo, getUserDetails]);
+  }, [history, user, userInfo, getUserDetails, listMyOrders]);
 
   const submitHandler = (e) => {
     e.preventDefault();

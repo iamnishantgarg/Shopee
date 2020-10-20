@@ -63,6 +63,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: actionTypes.USER_LOGOUT });
   dispatch({ type: actionTypes.ORDER_LIST_MY_RESET });
   dispatch({ type: actionTypes.USER_DETAILS_RESET });
+  dispatch({ type: actionTypes.USER_LIST_RESET });
 
   localStorage.removeItem("shopee-userInfo");
 };
@@ -129,5 +130,57 @@ export const updateUserDetails = (user) => async (dispatch, getState) => {
         type: actionTypes.USER_UPDATE_PROFILE_RESET,
       });
     }, 5000);
+  }
+};
+
+export const getUserList = () => async (dispatch, getState) => {
+  dispatch({
+    type: actionTypes.USER_LIST_REQUEST,
+  });
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users/`, config);
+    dispatch({
+      type: actionTypes.USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: actionTypes.USER_DELETE_REQUEST,
+  });
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/users/${id}`, config);
+    dispatch({
+      type: actionTypes.USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.USER_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
