@@ -20,6 +20,7 @@ const UserListScreen = ({
     if (userInfo && userInfo.isAdmin) {
       getUserList();
     } else history.push("/login");
+    //eslint-disable-next-line
   }, [getUserList, history, successDelete]);
   const deleteHandler = (userId) => {
     if (window.confirm("Are you sure")) {

@@ -3,12 +3,12 @@ import { Form, Button } from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { connect } from "react-redux";
-import { getUserDetails, updateUser } from "../actions/userActions";
+import { listProductDetails } from "../actions/productActions";
 import FormContainer from "../components/FormContainer";
 import { Link } from "react-router-dom";
 import * as actionTypes from "../actions/types";
 import { useDispatch } from "react-redux";
-const UserEditScreen = ({
+const ProductEditScreen = ({
   getUserDetails,
   match,
   history,
@@ -21,10 +21,16 @@ const UserEditScreen = ({
   successUpdate,
 }) => {
   const dispatch = useDispatch();
-  const userId = match.params.id;
-  const [email, setEmail] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const prodId = match.params.id;
   const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [brand,setBrand]=useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [countInStock, setCountInStock] = useState(0);
+
+
 
   useEffect(() => {
     if (successUpdate) {
@@ -112,5 +118,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getUserDetails, updateUser })(
-  UserEditScreen
+  ProductEditScreen
 );
