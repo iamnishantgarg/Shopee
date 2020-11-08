@@ -26,7 +26,6 @@ const ProductScreen = ({
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    console.log("yes");
     listProductDetails(match.params.id);
   }, [listProductDetails, match.params.id]);
 
