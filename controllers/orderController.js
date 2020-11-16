@@ -41,10 +41,17 @@ exports.getOrderById = asyncHandler(async (req, res, next) => {
     "user",
     "name email"
   );
-  // console.log(order);
-  if (!order || order.user._id.toString() !== req.user._id.toString()) {
+
+  if (!order) {
     res.status(404);
     throw new Error("Order not found");
+  } else if (!req.user.isAdmin) {
+    if (order.user.id.toString() !== req.user.id.toString()) {
+      res.status(404);
+      throw new Error("Order not found");
+    } else {
+      return res.json(order);
+    }
   } else {
     return res.json(order);
   }
@@ -72,13 +79,34 @@ exports.updateOrderToPaid = asyncHandler(async (req, res, next) => {
   }
 });
 
+// @desc  Update Order to delivered
+// @route GET /api/orders/:id/deliver
+// @access Private/Admin
+exports.updateOrderToDelivered = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    const updatedOrder = await order.save();
+    return res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not Found!");
+  }
+});
+
 // @desc GET logged in user orders
 // @route GET /api/orders/myorders
 // @access Private
 exports.getMyOrders = asyncHandler(async (req, res, next) => {
-  //console.log("tes");
-  //console.log(req.user._id);
-
   const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+});
+
+// @desc GET all orders
+// @route GET /api/orders
+// @access Private/Admin
+exports.getOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);
 });

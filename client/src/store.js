@@ -24,13 +24,15 @@ import {
   orderDetailsReducer,
   orderPayReducer,
   orderListMyReducer,
+  orderListReducer,
+  orderDeliverReducer,
 } from "./reducers/orderReducers";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
-  productUpdate: productUpdateReducer ,
+  productUpdate: productUpdateReducer,
   cart: cartReduce,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -43,6 +45,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderListMy: orderListMyReducer,
+  orderList: orderListReducer,
+  orderDeliver: orderDeliverReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("shopee-userInfo")
