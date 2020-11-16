@@ -57,7 +57,15 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
 // @access Private/Admin
 
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  const { name, price, description, brand, category, countInStock } = req.body;
+  const {
+    name,
+    price,
+    description,
+    brand,
+    category,
+    countInStock,
+    image,
+  } = req.body;
 
   const product = await Product.findById(req.params.id);
   if (product) {
@@ -66,6 +74,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     product.category = category;
     product.brand = brand;
     product.price = price;
+    product.image = image;
     product.countInStock = countInStock;
     product.description = description;
     const updatedProduct = await product.save();
