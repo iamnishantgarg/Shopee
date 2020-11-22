@@ -8,6 +8,7 @@ const uploadRoute = require("./routes/uploadRoutes");
 const userRoute = require("./routes/userRoutes");
 const connectDb = require("./config/db");
 const colors = require("colors");
+const morgan=require("morgan");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const { request } = require("express");
 const app = express();
@@ -24,6 +25,10 @@ app.use("*", (req, res, next) => {
 
   next();
 });
+
+if(process.env.NODE_ENV==='developement'){
+app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
