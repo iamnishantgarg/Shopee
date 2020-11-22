@@ -7,10 +7,11 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 //import products from "../products";
-const HomeScreen = ({ listProducts, products, error, loading }) => {
+const HomeScreen = ({ listProducts, products, error, loading, match }) => {
+  const keyword = match.params.keyword;
   useEffect(() => {
-    listProducts();
-  }, [listProducts]);
+    listProducts(keyword);
+  }, [listProducts, keyword]);
   return (
     <>
       <h1>Latest Products</h1>
